@@ -1,48 +1,78 @@
-plugins {
-    id 'org.springframework.boot' version '2.5.4'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'java'
-    id 'org.springframework.experimental.aot' version '0.10.3'
-    id 'org.graalvm.buildtools.native' version '0.9.3'
-}
-
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+buildscript {
+    ext {
+        spring = "2.4.3"
+        boot = "org.springframework.boot"
+        lombok = "org.projectlombok:lombok:1.18.20"
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("$boot:spring-boot-gradle-plugin:$spring")
     }
 }
 
-repositories {
-    maven { url 'https://repo.spring.io/release' }
-    mavenCentral()
+allprojects {
+    group = "com.sp.fc"
+    version = "1.0.0"
 }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+subprojects {
+
+    apply plugin: "java"
+    apply plugin: boot
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: "idea"
+
+    repositories {
+        mavenCentral()
+    }
+
+    configurations {
+        //developmentOnly
+        runtimeClasspath {
+            extendsFrom developmentOnly
+        }
+    }
+
+    dependencies {
+        //developmentOnly("$boot:spring-boot-devtools")
+        implementation "$boot:spring-boot-starter-security"
+        implementation 'com.fasterxml.jackson.core:jackson-annotations'
+
+        compileOnly lombok
+        testCompileOnly lombok
+        annotationProcessor lombok
+        testAnnotationProcessor lombok
+
+        testImplementation "$boot:spring-boot-starter-test"
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
 }
 
-test {
-    useJUnitPlatform()
+
+["comp", "web"].each {
+    def subProjectDir = new File(projectDir, it)
+    subProjectDir.eachDir {dir->
+        def projectName = ":${it}-${dir.name}"
+        project(projectName){
+            bootJar.enabled(false)
+            jar.enabled(true)
+        }
+    }
+}
+["server"].each {
+    def subProjectDir = new File(projectDir, it)
+    subProjectDir.eachDir {dir->
+        def projectName = ":${it}-${dir.name}"
+        project(projectName){
+
+        }
+    }
 }
 
-bootBuildImage {
-    builder = 'paketobuildpacks/builder:tiny'
-    environment = ['BP_NATIVE_IMAGE': 'true']
-}
-
-nativeBuild {
-    classpath processAotResources.outputs, compileAotJava.outputs
-}
-
-nativeTest {
-    classpath processAotTestResources.outputs, compileAotTestJava.outputs
-}
+help.enabled(false)
