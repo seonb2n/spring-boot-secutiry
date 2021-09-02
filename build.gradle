@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        spring = "2.4.3"
+        spring = "2.4.1"
         boot = "org.springframework.boot"
         lombok = "org.projectlombok:lombok:1.18.20"
     }
@@ -44,6 +44,7 @@ subprojects {
         testCompileOnly lombok
         annotationProcessor lombok
         testAnnotationProcessor lombok
+
 
         testImplementation "$boot:spring-boot-starter-test"
     }
