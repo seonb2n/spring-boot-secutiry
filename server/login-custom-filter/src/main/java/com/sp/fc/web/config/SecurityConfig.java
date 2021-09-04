@@ -9,10 +9,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    
 
     private final StudentManager studentManager;
     private final TeacherManager teacherManager;
@@ -30,9 +32,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        CustomLoginFilter filter = new CustomLoginFilter(authenticationManager());
+
         http
                 .authorizeRequests(request->
-                        request.antMatchers("/").permitAll()
+                        request.antMatchers("/", "/login", "/login-error").permitAll()
                         .anyRequest().authenticated()
                 )
             .formLogin(
@@ -40,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .defaultSuccessUrl("/", false)
                     .failureUrl("/login-error")
             )
+            .addFilterAt(filter, UsernamePasswordAuthenticationFilter.class) //내가 만든 필터를 usernameAuthentication Filter 자리에 추가
             .logout(logout->logout.logoutSuccessUrl("/"))
             .exceptionHandling(e -> e.accessDeniedPage("/access-denied"))
                 ;
