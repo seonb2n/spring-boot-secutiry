@@ -22,11 +22,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser(User.builder()
                 .username("user2")
                 .password(passwordEncoder().encode("2222"))
-                .roles("ROLE_USER")
+                .roles("USER")
                 ).withUser(User.builder()
                 .username("admin")
                 .password(passwordEncoder().encode("3333"))
-                .roles("ROLE_ADMIN")
+                .roles("ADMIN")
         );
     }
 
