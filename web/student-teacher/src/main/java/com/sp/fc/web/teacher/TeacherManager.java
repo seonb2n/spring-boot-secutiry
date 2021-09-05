@@ -1,7 +1,5 @@
 package com.sp.fc.web.teacher;
 
-import com.sp.fc.web.student.Student;
-import com.sp.fc.web.student.StudentAuthenticationToken;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,22 +18,33 @@ public class TeacherManager implements AuthenticationProvider, InitializingBean 
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        if(authentication instanceof UsernamePasswordAuthenticationToken) {
+            UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
+            if(teacherDB.containsKey(token.getName())) {
+                return getAuthenticationToken(token.getName());
+            }
+            return null;
+        }
         TeacherAuthenticationToken token = (TeacherAuthenticationToken) authentication;
         if(teacherDB.containsKey(token.getCredentials())) {
-            Teacher teacher = teacherDB.get(token.getCredentials());
-            return TeacherAuthenticationToken.builder()
-                    .principal(teacher)
-                    .details(teacher.getUsername())
-                    .authenticated(true)
-                    .build();
+            return getAuthenticationToken(token.getCredentials());
         }
         return null;
-        //인증에 실패한, 처리할 수 없는 authentication 은 null 로 넘겨야 다른 filter 에서 처리가 된다.
+    }
+
+    private TeacherAuthenticationToken getAuthenticationToken(String id) {
+        Teacher teacher = teacherDB.get(id);
+        return TeacherAuthenticationToken.builder()
+                .principal(teacher)
+                .details(teacher.getUsername())
+                .authenticated(true)
+                .build();
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return authentication == TeacherAuthenticationToken.class;
+        return authentication == TeacherAuthenticationToken.class ||
+                authentication == UsernamePasswordAuthenticationToken.class;
         //해당 형태의 token 을 받으면, 검증을 하는 provider 로 기능을 하겠다는 선언
     }
 

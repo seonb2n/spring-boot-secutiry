@@ -1,6 +1,5 @@
-package com.sp.fc.web.teacher;
+package com.sp.fc.web.student;
 
-import com.sp.fc.web.student.Student;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,9 +14,9 @@ import java.util.HashSet;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TeacherAuthenticationToken implements Authentication {
+public class StudentAuthenticationToken implements Authentication {
 
-    private Teacher principal;
+    private Student principal;
     private String credentials;
     private String details;
     private boolean authenticated;

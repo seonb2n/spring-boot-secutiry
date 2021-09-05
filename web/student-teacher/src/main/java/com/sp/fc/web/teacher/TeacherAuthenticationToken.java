@@ -1,4 +1,4 @@
-package com.sp.fc.web.student;
+package com.sp.fc.web.teacher;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.security.auth.Subject;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -15,9 +14,9 @@ import java.util.HashSet;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StudentAuthenticationToken implements Authentication {
+public class TeacherAuthenticationToken implements Authentication {
 
-    private Student principal;
+    private Teacher principal;
     private String credentials;
     private String details;
     private boolean authenticated;
