@@ -24,18 +24,10 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
         username = username.trim();
         String password = obtainPassword(request);
         password = (password != null) ? password : "";
-        String type = request.getParameter("type");
-        if(type == null || !type.equals("teacher")){
-            // student
-            StudentAuthenticationToken token = StudentAuthenticationToken.builder()
-                    .credentials(username).build();
-            return this.getAuthenticationManager().authenticate(token);
-        }else{
-            // teacher
-            TeacherAuthenticationToken token = TeacherAuthenticationToken.builder()
-                    .credentials(username).build();
-            return this.getAuthenticationManager().authenticate(token);
-        }
+
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+
+        return this.getAuthenticationManager().authenticate(token);
     }
 
 

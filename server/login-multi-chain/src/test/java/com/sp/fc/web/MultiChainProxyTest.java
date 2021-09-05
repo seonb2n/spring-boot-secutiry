@@ -7,7 +7,6 @@ import com.sp.fc.web.student.Student;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -29,27 +28,27 @@ public class MultiChainProxyTest {
 
     RestTemplate restTemplate = new RestTemplate();
 
+    @DisplayName("1. 학생 조사")
     @Test
     void test_1() throws JsonProcessingException {
         String url = format("http://localhost:%d/api/teacher/students", port);
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(HttpHeaders.AUTHORIZATION, "Basic " + Base64.getEncoder().encodeToString(
-                "choi:1111".getBytes()
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, "Basic " + Base64.getEncoder().encodeToString(
+                "choi:1".getBytes()
         ));
-        HttpEntity<String> entity = new HttpEntity<>("", httpHeaders);
+        HttpEntity<String> entity = new HttpEntity<>("", headers);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
-        System.out.println(">>>" + entity);
-
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-
-        System.out.println(">>>" + response);
-
-        List<Student> list = new ObjectMapper().readValue(response.getBody(),
+        List<Student> list = new ObjectMapper().readValue(responseEntity.getBody(),
                 new TypeReference<List<Student>>() {
                 });
-        System.out.println(list);
+
+        list.forEach(System.out::println);
+
         assertEquals(3, list.size());
+
     }
+
 
 }

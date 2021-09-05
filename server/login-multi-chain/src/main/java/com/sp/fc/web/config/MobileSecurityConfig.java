@@ -5,6 +5,7 @@ import com.sp.fc.web.teacher.TeacherManager;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,18 +13,17 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
 
-@Configuration
 @Order(1)
+@Configuration
 public class MobileSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final StudentManager studentManager;
     private final TeacherManager teacherManager;
 
     public MobileSecurityConfig(StudentManager studentManager, TeacherManager teacherManager) {
-        this.studentManager = studentManager;
         this.teacherManager = teacherManager;
+        this.studentManager = studentManager;
     }
 
     @Override
@@ -37,11 +37,11 @@ public class MobileSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .antMatcher("/api/**")
                 .csrf().disable()
-                .authorizeRequests(request ->
+                .authorizeRequests(request->
                         request.anyRequest().authenticated()
                 )
-                .httpBasic() //basic Authentication filter 를 사용하기 위한 옵션 추가
-        ;
+                .httpBasic()
+                ;
     }
 
 

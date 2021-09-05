@@ -20,7 +20,7 @@ public class TeacherController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_TEACHER')")
     @GetMapping("/main")
-    public String main(@AuthenticationPrincipal Teacher teacher, Model model){
+    public String main(@AuthenticationPrincipal Teacher teacher , Model model){
         model.addAttribute("studentList", studentManager.myStudentList(teacher.getId()));
         return "TeacherMain";
     }

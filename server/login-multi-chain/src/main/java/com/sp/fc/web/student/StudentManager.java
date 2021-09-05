@@ -20,9 +20,9 @@ public class StudentManager implements AuthenticationProvider, InitializingBean 
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        StudentAuthenticationToken token = (StudentAuthenticationToken) authentication;
-        if(studentDB.containsKey(token.getCredentials())){
-            Student student = studentDB.get(token.getCredentials());
+        UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
+        if(studentDB.containsKey(token.getName())){
+            Student student = studentDB.get(token.getName());
             return StudentAuthenticationToken.builder()
                     .principal(student)
                     .details(student.getUsername())
@@ -35,11 +35,11 @@ public class StudentManager implements AuthenticationProvider, InitializingBean 
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return authentication == StudentAuthenticationToken.class;
+        return authentication == UsernamePasswordAuthenticationToken.class;
     }
 
     public List<Student> myStudentList(String teacherId) {
-        return studentDB.values().stream().filter(s -> s.getTeacherID().equals(teacherId))
+        return studentDB.values().stream().filter(s -> s.getTeaccherID().equals(teacherId))
                 .collect(Collectors.toList());
     }
 
@@ -50,7 +50,7 @@ public class StudentManager implements AuthenticationProvider, InitializingBean 
                 new Student("kang", "강아지", Set.of(new SimpleGrantedAuthority("ROLE_STUDENT")), "choi"),
                 new Student("rang", "호랑이", Set.of(new SimpleGrantedAuthority("ROLE_STUDENT")), "choi")
         ).forEach(s->
-            studentDB.put(s.getId(), s)
+                studentDB.put(s.getId(), s)
         );
     }
 }

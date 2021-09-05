@@ -21,6 +21,6 @@ public class Student {
     @JsonIgnore
     private Set<GrantedAuthority> role;
 
-    private String teacherID;
+    private String teaccherID;
 
 }
