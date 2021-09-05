@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    
+
 
     private final StudentManager studentManager;
     private final TeacherManager teacherManager;
@@ -45,7 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .defaultSuccessUrl("/", false)
                     .failureUrl("/login-error")
             )
-            .addFilterAt(filter, UsernamePasswordAuthenticationFilter.class) //내가 만든 필터를 usernameAuthentication Filter 자리에 추가
+            .addFilterAt(filter, UsernamePasswordAuthenticationFilter.class)
+                //내가 만든 필터를 usernameAuthentication Filter 자리에 추가
             .logout(logout->logout.logoutSuccessUrl("/"))
             .exceptionHandling(e -> e.accessDeniedPage("/access-denied"))
                 ;
