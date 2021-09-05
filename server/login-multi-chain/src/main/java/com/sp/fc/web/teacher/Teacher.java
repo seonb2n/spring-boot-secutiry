@@ -18,6 +18,7 @@ public class Teacher {
 
     private String id;
     private String username;
+    private String password;
     private Set<GrantedAuthority> role;
 
     private List<Student> studentList;

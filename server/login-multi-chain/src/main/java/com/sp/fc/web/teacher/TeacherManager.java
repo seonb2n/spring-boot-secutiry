@@ -40,7 +40,7 @@ public class TeacherManager implements AuthenticationProvider, InitializingBean 
     @Override
     public void afterPropertiesSet() throws Exception {
         Set.of(
-                new Teacher("choi", "최선생", Set.of(new SimpleGrantedAuthority("ROLE_TEACHER")), null)
+                new Teacher("choi", "최선생", "1111", Set.of(new SimpleGrantedAuthority("ROLE_TEACHER")), null)
         ).forEach(s->
             teacherDB.put(s.getId(), s)
         );
