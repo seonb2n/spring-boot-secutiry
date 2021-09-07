@@ -3,9 +3,12 @@ package com.sp.fc.user.service;
 import com.sp.fc.user.domain.SpAuthority;
 import com.sp.fc.user.domain.SpUser;
 import com.sp.fc.user.repository.SpUserRepository;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +24,11 @@ public class SpUserService implements UserDetailsService {
 
     public SpUserService(SpUserRepository uerRepository) {
         this.userRepository = uerRepository;
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
     }
 
     @Override

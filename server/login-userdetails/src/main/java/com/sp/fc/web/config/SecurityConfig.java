@@ -59,8 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
                 .requestMatchers(
-                        PathRequest.toStaticResources().atCommonLocations()
+                        PathRequest.toStaticResources().atCommonLocations(),
+                        PathRequest.toH2Console()
                 );
-    } //웹 리소스에 대해서는 security filter 에 걸리지 않도록 해주는 설정.
-    //static resources 에 web resource 존재
+    } //웹 리소스와 H2 콘솔에 대해서는 security filter 에 걸리지 않도록 해주는 설정.
 }
