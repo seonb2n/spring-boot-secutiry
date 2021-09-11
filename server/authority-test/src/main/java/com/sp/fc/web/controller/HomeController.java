@@ -1,16 +1,21 @@
 package com.sp.fc.web.controller;
 
-import org.springframework.security.access.prepost.PreAuthorize;
+import com.sp.fc.web.Service.SecurityMessageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HomeController {
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/greeting")
-    public String greeting() {
-        return "hello";
+    @Autowired
+    private SecurityMessageService securityMessageService;
+
+//    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/greeting/{name}")
+    public String greeting(@PathVariable  String name) {
+        return "hello " + securityMessageService.message(name);
     }
 
 }

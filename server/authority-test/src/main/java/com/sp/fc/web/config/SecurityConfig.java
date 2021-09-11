@@ -1,5 +1,6 @@
 package com.sp.fc.web.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -49,6 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         };
     }
 
+    @Autowired
+    private NameCheck nameCheck;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -56,7 +60,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().and()
                 .authorizeRequests(
                         authority -> authority
-                                .mvcMatchers("/greeting").hasRole("USER")
+                                .mvcMatchers("/greeting/{name}")
+                                //expression 으로 체크하는 access()
+                                .access("@nameCheck.check(#name)")
                                 .anyRequest().authenticated()
                         //.accessDecisionManager(filterAccessDecisionManager())
                         //AccessDecisionManager 에서 항상 넘겨주는 걸로 설정함
