@@ -28,12 +28,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 );
     }
 
-    AccessDecisionManager filterAccessDecisionManager() {
+    //filter 상 AccessDecisionManager 설정정
+   AccessDecisionManager filterAccessDecisionManager() {
         return new AccessDecisionManager() {
             @Override
             public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
-                throw new AccessDeniedException("접근 금지");
-        //        return;
+                //throw new AccessDeniedException("접근 금지");
+             return;
             }
 
             @Override
@@ -55,9 +56,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().and()
                 .authorizeRequests(
                         authority -> authority
-                                .mvcMatchers("/greeting").hasRole("ADMIN")
+                                .mvcMatchers("/greeting").hasRole("USER")
                                 .anyRequest().authenticated()
-                        .accessDecisionManager(filterAccessDecisionManager())
+                        //.accessDecisionManager(filterAccessDecisionManager())
                         //AccessDecisionManager 에서 항상 넘겨주는 걸로 설정함
                 )
         ;
