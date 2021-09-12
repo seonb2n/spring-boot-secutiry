@@ -38,6 +38,7 @@ public class MethodSecurityConfiguration extends GlobalMethodSecurityConfigurati
                 //security 를 체크할 때마다 root 생성, 생성된 root 에 evaluator 전달
                 return root;
             }
+
         };
         //기존의 evaluator 를 내가 만든 evaluator 로 교체
         handler.setPermissionEvaluator(permissionEvaluator);

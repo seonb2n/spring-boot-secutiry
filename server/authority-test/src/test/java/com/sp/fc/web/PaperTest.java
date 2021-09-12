@@ -37,6 +37,15 @@ public class PaperTest extends WebIntegrationTest {
             .state(Paper.State.PREPARE)
             .build();
 
+    private Paper paper3 = Paper.builder()
+            .paperId(2L)
+            .title("시험지3")
+            .tutorId("tutor1")
+            .studentIds(List.of("user2"))
+            .state(Paper.State.READY)
+            .build();
+
+
 
     @Test
     void test_1() {
@@ -70,6 +79,32 @@ public class PaperTest extends WebIntegrationTest {
     void test_3() {
         //user2 도 prepare 상태인 paper 는 볼 수 없다
         paperService.setPaper(paper2);
+        client = new TestRestTemplate("user2", "2222");
+        ResponseEntity<Paper> response = client.exchange(uri("/paper/get/2"),
+                HttpMethod.GET, null, new ParameterizedTypeReference<Paper>() {
+                });
+
+        assertEquals(200, response.getStatusCodeValue());
+
+    }
+
+    @Test
+    void test_4() {
+        //tutor 는 모든 페이퍼를 볼 수 있다.
+        paperService.setPaper(paper2);
+        client = new TestRestTemplate("tutor1", "1111");
+        ResponseEntity<Paper> response = client.exchange(uri("/paper/get/2"),
+                HttpMethod.GET, null, new ParameterizedTypeReference<Paper>() {
+                });
+
+        assertEquals(200, response.getStatusCodeValue());
+
+    }
+
+    @Test
+    void test_5() {
+        //user2 는 ready paper 을 볼 수 있다.
+        paperService.setPaper(paper3);
         client = new TestRestTemplate("user2", "2222");
         ResponseEntity<Paper> response = client.exchange(uri("/paper/get/2"),
                 HttpMethod.GET, null, new ParameterizedTypeReference<Paper>() {
