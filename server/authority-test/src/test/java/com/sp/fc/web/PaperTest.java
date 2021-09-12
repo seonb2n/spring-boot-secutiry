@@ -38,10 +38,18 @@ public class PaperTest extends WebIntegrationTest {
             .build();
 
     private Paper paper3 = Paper.builder()
-            .paperId(2L)
+            .paperId(3L)
             .title("시험지3")
             .tutorId("tutor1")
             .studentIds(List.of("user2"))
+            .state(Paper.State.READY)
+            .build();
+
+    private Paper paper4 = Paper.builder()
+            .paperId(4L)
+            .title("시험지4")
+            .tutorId("tutor1")
+            .studentIds(List.of("user1"))
             .state(Paper.State.READY)
             .build();
 
@@ -58,6 +66,25 @@ public class PaperTest extends WebIntegrationTest {
                 });
 
         assertEquals(200, response.getStatusCodeValue());
+        assertEquals(0, response.getBody().size());
+        System.out.println(response.getBody());
+
+    }
+
+    @Test
+    void test_1_1() {
+        paperService.setPaper(paper1);
+        paperService.setPaper(paper2);
+        paperService.setPaper(paper3);
+        paperService.setPaper(paper4);
+
+        client = new TestRestTemplate("user2", "2222");
+        ResponseEntity<List<Paper>> response = client.exchange(uri("/paper/mypapers2"),
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Paper>>() {
+                });
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(1, response.getBody().size());
         System.out.println(response.getBody());
 
     }
@@ -111,8 +138,9 @@ public class PaperTest extends WebIntegrationTest {
                 });
 
         assertEquals(200, response.getStatusCodeValue());
-
     }
+
+
 
 
 

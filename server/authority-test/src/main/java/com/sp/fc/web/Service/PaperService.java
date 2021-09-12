@@ -28,6 +28,10 @@ public class PaperService implements InitializingBean {
         ).collect(Collectors.toList());
     }
 
+    public List<Paper> getMyPapers2(String username) {
+        return paperDB.values().stream().collect(Collectors.toList());
+    }
+
     public Paper getPaper(Long paperId) {
         return paperDB.get(paperId);
     }
