@@ -19,7 +19,7 @@ import org.springframework.security.core.Authentication;
 import java.util.ArrayList;
 import java.util.List;
 
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class MethodSecurityConfiguration extends GlobalMethodSecurityConfiguration {
     //prePost 설정을 함으로써, method 에 대헌 globalMethodSecurityConfiguration 이 작동함.
 
@@ -55,8 +55,7 @@ public class MethodSecurityConfiguration extends GlobalMethodSecurityConfigurati
         decisionVoters.add(new RoleVoter());
         decisionVoters.add(new AuthenticatedVoter());
         //3개의 voter 를 만듦
-        //decisionVoters.add(new CustomVoter());
-        //내가 만든 항상 찬성하는 voter 를 추가
+        decisionVoters.add(new CustomVoter());
 
 //        ConsensusBased committee = new ConsensusBased(decisionVoters);
 //        committee.setAllowIfEqualGrantedDeniedDecisions(false);

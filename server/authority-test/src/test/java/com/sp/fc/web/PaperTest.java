@@ -140,6 +140,26 @@ public class PaperTest extends WebIntegrationTest {
         assertEquals(200, response.getStatusCodeValue());
     }
 
+    @Test
+    void test_6() {
+        paperService.setPaper(paper1);
+        paperService.setPaper(paper2);
+        paperService.setPaper(paper3);
+        paperService.setPaper(paper4);
+        //교장은 모든 paper 를 볼 수 있다.
+        paperService.setPaper(paper1);
+
+        client = new TestRestTemplate("primary", "1111");
+        ResponseEntity<List<Paper>> response = client.exchange(uri("/paper/getPapersByPrimary"),
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Paper>>() {
+                });
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(4, response.getBody().size());
+        response.getBody().stream().forEach(System.out::println);
+
+    }
+
 
 
 
