@@ -3,7 +3,6 @@ package com.sp.fc.web.controller;
 import com.sp.fc.web.Service.Paper;
 import com.sp.fc.web.Service.PaperService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -44,7 +43,7 @@ public class PaperController {
         return paperService.getPaper(paperId);
     }
 
-    @Secured({"SCHOOL_PRIMARY"})
+//    @Secured({"SCHOOL_PRIMARY"})
     @GetMapping("/getPapersByPrimary")
     public List<Paper> getPapersByPrimary(@AuthenticationPrincipal User user) {
         return paperService.getAllPapers();

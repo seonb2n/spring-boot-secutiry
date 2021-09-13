@@ -8,6 +8,7 @@ import org.springframework.security.access.expression.method.DefaultMethodSecuri
 import org.springframework.security.access.expression.method.ExpressionBasedPreInvocationAdvice;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionOperations;
+import org.springframework.security.access.method.MethodSecurityMetadataSource;
 import org.springframework.security.access.prepost.PreInvocationAuthorizationAdviceVoter;
 import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.AuthenticatedVoter;
@@ -26,6 +27,12 @@ public class MethodSecurityConfiguration extends GlobalMethodSecurityConfigurati
     @Autowired
     private CustomPermissionEvaluator permissionEvaluator;
     //내가 만든 permissionEvaluator 로 root의 것을 대체해줘야함
+
+
+    @Override
+    protected MethodSecurityMetadataSource customMethodSecurityMetadataSource() {
+        return new CustomMetaDataSource();
+    }
 
     //원래의 securityexpressionroot 를 내가 만든 것으로 교체해줘야 함
     @Override
