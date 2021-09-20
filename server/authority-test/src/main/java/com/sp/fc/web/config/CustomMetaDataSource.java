@@ -1,6 +1,5 @@
 package com.sp.fc.web.config;
 
-import com.sp.fc.web.controller.PaperController;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.access.ConfigAttribute;
@@ -23,10 +22,10 @@ public class CustomMetaDataSource implements MethodSecurityMetadataSource {
             return List.of(new SecurityConfig(annotation.value()));
         }
 
-        if(method.getName().equals("getPapersByPrimary") && targetClass == PaperController.class) {
-            return List.of(new SecurityConfig("SCHOOL_PRIMARY"));
-            //조건에 맞는 경우, securityConfig 로 school_primary 라는 토큰 발사
-        }
+//        if(method.getName().equals("getPapersByPrimary") && targetClass == PaperController.class) {
+//            return List.of(new SecurityConfig("SCHOOL_PRIMARY"));
+//            //조건에 맞는 경우, securityConfig 로 school_primary 라는 토큰 발사
+//        }
         return null;
     }
 

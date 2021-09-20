@@ -26,8 +26,8 @@ public class CustomVoter implements AccessDecisionVoter<MethodInvocation> {
     public int vote(Authentication authentication, MethodInvocation object, Collection<ConfigAttribute> attributes) {
         String role = attributes.stream().filter(attr -> attr.getAttribute().startsWith(PREFIX))
                 .map(attr->attr.getAttribute().substring(PREFIX.length()))
-                .findFirst().get();
-        if(authentication.getAuthorities().stream().filter(auth -> auth.getAuthority().equals("ROLE_"+role.toUpperCase()))
+                .findFirst().orElseGet(()->null);
+        if(role != null && authentication.getAuthorities().stream().filter(auth -> auth.getAuthority().equals("ROLE_"+role.toUpperCase()))
             .findAny().isPresent()) {
             return ACCESS_GRANTED;
         } //school_primary 로 들어온 attribute 에 대해서, role_primary 로 바꿔서 맞는지 확인함.

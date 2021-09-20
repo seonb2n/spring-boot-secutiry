@@ -2,7 +2,7 @@ package com.sp.fc.web.config;
 
 import com.sp.fc.web.Service.Paper;
 import com.sp.fc.web.Service.PaperService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Component
 public class CustomPermissionEvaluator implements PermissionEvaluator {
 
-    @Autowired
+    @Lazy
     private PaperService paperService;
 
     @Override

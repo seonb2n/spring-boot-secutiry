@@ -142,15 +142,35 @@ public class PaperTest extends WebIntegrationTest {
 
     @Test
     void test_6() {
+        //교장은 모든 paper 를 볼 수 있다.
         paperService.setPaper(paper1);
         paperService.setPaper(paper2);
         paperService.setPaper(paper3);
         paperService.setPaper(paper4);
-        //교장은 모든 paper 를 볼 수 있다.
         paperService.setPaper(paper1);
 
         client = new TestRestTemplate("primary", "1111");
         ResponseEntity<List<Paper>> response = client.exchange(uri("/paper/getPapersByPrimary"),
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Paper>>() {
+                });
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(4, response.getBody().size());
+        response.getBody().stream().forEach(System.out::println);
+
+    }
+
+    @Test
+    void test_7() {
+        //사용자가 임시로 교장 권한으로 시험지를 가져온다
+        paperService.setPaper(paper1);
+        paperService.setPaper(paper2);
+        paperService.setPaper(paper3);
+        paperService.setPaper(paper4);
+        paperService.setPaper(paper1);
+
+        client = new TestRestTemplate("user1", "1111");
+        ResponseEntity<List<Paper>> response = client.exchange(uri("/paper/allpapers"),
                 HttpMethod.GET, null, new ParameterizedTypeReference<List<Paper>>() {
                 });
 
