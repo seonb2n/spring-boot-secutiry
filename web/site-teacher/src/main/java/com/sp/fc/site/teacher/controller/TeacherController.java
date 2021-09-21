@@ -1,4 +1,4 @@
-package com.sp.fc.web.controller;
+package com.sp.fc.site.teacher.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
