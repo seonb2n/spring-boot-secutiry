@@ -1,7 +1,6 @@
 package com.sp.fc.user.service.helper;
 
 import com.sp.fc.user.domain.School;
-import com.sp.fc.user.repository.SchoolRepository;
 import com.sp.fc.user.repository.UserRepository;
 import com.sp.fc.user.service.SchoolService;
 import com.sp.fc.user.service.UserSecurityService;

@@ -1,4 +1,4 @@
-package com.sp.fc.site.manage.controller.vo;
+package com.sp.fc.site.manager.controller.vo;
 
 
 import lombok.AllArgsConstructor;
@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class StudyData {
+public class TeacherData {
 
     private String schoolName;
     private Long userId;
     private String name;
     private String email;
-    private String grade;
+    private long studentCount;
 
 }

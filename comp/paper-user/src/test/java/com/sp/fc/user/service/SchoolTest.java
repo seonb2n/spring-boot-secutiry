@@ -1,7 +1,6 @@
 package com.sp.fc.user.service;
 
 import com.sp.fc.user.domain.School;
-import com.sp.fc.user.repository.SchoolRepository;
 import com.sp.fc.user.service.helper.SchoolTestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
