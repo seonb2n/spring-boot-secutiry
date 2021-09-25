@@ -53,6 +53,13 @@ public class JWTReqeustTest extends WebIntegrationTest {
         System.out.println(resp.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0));
         System.out.println(resp.getBody());
 
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.AUTHORIZATION, resp.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0));
+        entity = new HttpEntity<>(null, header);
+        //아까 받은 token 을 header 에 추가한다.
+
+        ResponseEntity<String> resp2 = client.exchange(uri("/greeting"), HttpMethod.GET, entity, String.class);
+        System.out.println(resp2.getBody());
     }
 
 }

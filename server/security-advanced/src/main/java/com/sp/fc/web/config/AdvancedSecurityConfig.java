@@ -1,6 +1,7 @@
 package com.sp.fc.web.config;
 
 import com.sp.fc.user.service.SpUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,8 +14,8 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AdvancedSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
     private SpUserService userService;
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
