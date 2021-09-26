@@ -10,7 +10,7 @@ import java.time.Instant;
 public class JWTUtil {
 
     private static final Algorithm ALGORITHM = Algorithm.HMAC256("seonbin");
-    private static final long AUTH_TIME = 60 * 20;
+    private static final long AUTH_TIME = 2;
     private static final long REFRESH_TIME = 60 * 60 * 24 * 7;
 
 
